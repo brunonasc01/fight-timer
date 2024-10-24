@@ -11,35 +11,52 @@
             align-items: center;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #FFFFFF;
         }
         #timer {
-            font-size: 48px;
+            font-size: 36em;
             font-weight: bold;
+        }
+        .red-flag {
+            color: #FF0000;
         }
     </style>
 </head>
 <body>
-    <div id="timer">00:00:00</div>
+    <div id="timer">00:00</div>
 
     <script>
         let timerInterval;
         let remainingTime = 0; // Time in seconds
         let pausedTime = 0; // Holds the time when paused
 
-        // Format time into HH:MM:SS format
+        function toggleRed(append) {
+            if(append === true) {
+                document.getElementById("timer").classList.add('red-flag');
+            }
+            else {
+                document.getElementById("timer").classList.remove('red-flag');
+            }
+        }
+
+        // Format time into MM:SS format
         function formatTime(seconds) {
-            const hours = Math.floor(seconds / 3600).toString().padStart(2, '0');
             const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
             const secs = (seconds % 60).toString().padStart(2, '0');
-            return `${hours}:${minutes}:${secs}`;
+            return `${minutes}:${secs}`;
         }
 
         // Start the countdown timer
         function startCountdown() {
+            (remainingTime <= 10)? toggleRed(true) : toggleRed(false);        
             if (remainingTime > 0 && !timerInterval) {
                 timerInterval = setInterval(() => {
                     remainingTime--;
+
+                    if(remainingTime <= 10) {
+                        toggleRed(true);
+                    }
+
                     document.getElementById("timer").textContent = formatTime(remainingTime);
 
                     // Stop the timer when it reaches zero
@@ -61,6 +78,7 @@
             stopTimer();
             remainingTime = 0;
             document.getElementById("timer").textContent = formatTime(remainingTime);
+            toggleRed(false);
         }
 
         // Continue countdown from the paused time
