@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Controls</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        input, button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 5px;
+        }
+        label {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <label for="timeInput">Enter time (in seconds):</label>
+    <input type="number" id="timeInput" value="60" />
+    <button id="startBtn">Start Countdown</button>
+    <button id="stopBtn">Stop</button>
+    <button id="continueBtn">Continue</button>
+    <button id="resetBtn">Reset</button>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const continueBtn = document.getElementById('continueBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const timeInput = document.getElementById('timeInput');
+
+        // Send commands to the parent window (main timer window)
+        function sendCommand(command, time = null) {
+            if (window.opener && !window.opener.closed) {
+                window.opener.postMessage({ command, time }, "*");
+            } else {
+                alert("The timer window is closed.");
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            const time = parseInt(timeInput.value, 10);
+            if (isNaN(time) || time <= 0) {
+                alert("Please enter a valid number of seconds.");
+            } else {
+                sendCommand('start', time);
+            }
+        });
+
+        stopBtn.addEventListener('click', () => sendCommand('stop'));
+        continueBtn.addEventListener('click', () => sendCommand('continue')); // Send continue command
+        resetBtn.addEventListener('click', () => sendCommand('reset'));
+    </script>
+</body>
+</html>
