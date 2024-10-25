@@ -22,9 +22,15 @@
         label {
             font-size: 16px;
         }
+        #mirrorTimer {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
+    <div id="mirrorTimer">00:00</div>
     <label for="timeInput">Enter time (in seconds):</label>
     <input type="number" id="timeInput" value="60" />
     <button id="startBtn">Start Countdown</button>
@@ -38,6 +44,7 @@
         const continueBtn = document.getElementById('continueBtn');
         const resetBtn = document.getElementById('resetBtn');
         const timeInput = document.getElementById('timeInput');
+        const mirrorTimer = document.getElementById('mirrorTimer');
 
         // Send commands to the parent window (main timer window)
         function sendCommand(command, time = null) {
@@ -58,8 +65,15 @@
         });
 
         stopBtn.addEventListener('click', () => sendCommand('stop'));
-        continueBtn.addEventListener('click', () => sendCommand('continue')); // Send continue command
+        continueBtn.addEventListener('click', () => sendCommand('continue'));
         resetBtn.addEventListener('click', () => sendCommand('reset'));
+
+        // Listen for time updates from the main timer window
+        window.addEventListener("message", (event) => {
+            if (event.data.time) {
+                mirrorTimer.textContent = event.data.time;
+            }
+        });
     </script>
 </body>
 </html>
