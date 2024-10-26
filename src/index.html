@@ -12,9 +12,10 @@
             height: 100vh;
             font-family: Arial, sans-serif;
             background-color: #FFFFFF;
+            overflow: hidden;
         }
         #timer {
-            font-size: 36em;
+            font-size: 40em;
             font-weight: bold;
         }
         .red-flag {
@@ -111,7 +112,7 @@
 
         // Open control window when the timer window is loaded
         window.onload = () => {
-            controlWindow = window.open('controls.html', 'Timer Controls', 'width=500,height=200,menubar=no,toolbar=no,location=no,scrollbars=no,status=no');
+            controlWindow = window.open('controls.html', 'Timer Control', 'width=500,height=250,menubar=no,toolbar=no,location=no,scrollbars=no,status=no');
         };
     </script>
 </body>
