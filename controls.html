@@ -56,7 +56,7 @@
             padding-right: 10px;
         }
         input[type='number']{
-            width: 200px;
+            width: 75px;
         }
         .hidden {
             display: none;
@@ -66,9 +66,13 @@
 <body>
     <table class="controls">
         <tr>
-            <td colspan="2">
-                <label for="timeInput">Informe o tempo (em segundos)</label>
-                <input type="number" id="timeInput" value="60" />
+            <td>
+                <label for="minuteInput">Minutos</label>                
+                <input type="number" id="minuteInput" value="1"  min="0" />
+            </td>
+            <td>
+                <label for="secondInput">Segundos</label>
+                <input type="number" id="secondInput" value="0" min="0" max="59" />
             </td>
             <td>
                 <label>Timer</label>
@@ -94,7 +98,8 @@
         const stopBtn = document.getElementById('stopBtn');
         const continueBtn = document.getElementById('continueBtn');
         const resetBtn = document.getElementById('resetBtn');
-        const timeInput = document.getElementById('timeInput');
+        const minuteInput = document.getElementById('minuteInput');
+        const secondInput = document.getElementById('secondInput');
         const mirrorTimer = document.getElementById('mirrorTimer');
 
         function controlButtons(command) {
@@ -128,10 +133,19 @@
         }
 
         startBtn.addEventListener('click', () => {
-            const time = parseInt(timeInput.value, 10);
-            if (isNaN(time) || time <= 0) {
-                alert("Please enter a valid number of seconds.");
-            } else {
+            const minutes = parseInt(minuteInput.value, 10);
+            const seconds = parseInt(secondInput.value, 10);
+            if (isNaN(minutes) || minutes < 0) {
+                alert("Informe os minutos corretamente.");
+            }
+            else if (isNaN(seconds) || seconds < 0 || seconds > 59) {
+                alert("Informe os segundos corretamente.");
+            }
+            else if (minutes == 0 && seconds == 0) {
+                alert("Defina o intervalo de tempo corretamente.");
+            }
+            else {
+                const time = (minutes * 60) + seconds;
                 sendCommand('start', time);
             }
         });
