@@ -19,24 +19,75 @@
             padding: 10px;
             margin: 5px;
         }
+        button {
+            width: 100px;
+            border-radius: 2px;
+        }
+        button#startBtn, button#continueBtn {
+            background-color: #76FF76;
+        }
+        button#resetBtn {
+            background-color: #FF7676;
+        }
+        button#stopBtn {
+            background-color: #FFFF76;
+        }
         label {
             font-size: 16px;
         }
         #mirrorTimer {
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 10px;
+            color: #434343;
+            background-color: #FFFFFF;
+            border: 1px solid #767676;
+            padding: 7px;
+            margin: 5px;
+            text-align: center;
+        }
+        table.controls input, table.controls label {
+            display: block;
+        }
+        table.controls label {
+            display: block;
+            margin-left: 5px;
+        }
+        table.controls tr td {
+            padding-right: 10px;
+        }
+        input[type='number']{
+            width: 200px;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div id="mirrorTimer">00:00</div>
-    <label for="timeInput">Enter time (in seconds):</label>
-    <input type="number" id="timeInput" value="60" />
-    <button id="startBtn">Start Countdown</button>
-    <button id="stopBtn">Stop</button>
-    <button id="continueBtn">Continue</button>
-    <button id="resetBtn">Reset</button>
+    <table class="controls">
+        <tr>
+            <td colspan="2">
+                <label for="timeInput">Informe o tempo (em segundos)</label>
+                <input type="number" id="timeInput" value="60" />
+            </td>
+            <td>
+                <label>Timer</label>
+                <div id="mirrorTimer">00:00</div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="startBtn">Iniciar</button>
+            </td>
+            <td>
+                <button id="stopBtn" disabled>Pausar</button>
+                <button class="hidden" id="continueBtn">Continuar</button>
+            </td>
+            <td>
+                <button id="resetBtn">Zerar</button>
+            </td>
+        </tr>
+    </table>
 
     <script>
         const startBtn = document.getElementById('startBtn');
@@ -46,10 +97,31 @@
         const timeInput = document.getElementById('timeInput');
         const mirrorTimer = document.getElementById('mirrorTimer');
 
+        function controlButtons(command) {
+            if(command === 'start') {
+                stopBtn.disabled = false;
+            }
+            else if(command === 'stop') {
+                document.getElementById("stopBtn").classList.add('hidden');
+                document.getElementById("continueBtn").classList.remove('hidden');
+            }
+            else if(command === 'continue') {
+                document.getElementById("stopBtn").classList.remove('hidden');
+                document.getElementById("continueBtn").classList.add('hidden');
+            }
+            else if(command === 'reset') {
+                mirrorTimer.textContent = '00:00';
+                stopBtn.disabled = true;
+                document.getElementById("stopBtn").classList.remove('hidden');
+                document.getElementById("continueBtn").classList.add('hidden');
+            }
+        }
+
         // Send commands to the parent window (main timer window)
         function sendCommand(command, time = null) {
             if (window.opener && !window.opener.closed) {
                 window.opener.postMessage({ command, time }, "*");
+                controlButtons(command);
             } else {
                 alert("The timer window is closed.");
             }
