@@ -3,7 +3,7 @@ const path = require('path');
 
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
-        fullscreen: true,
+        fullscreen: false,
         autoHideMenuBar: true,
         icon: path.join(__dirname, 'assets/icons/wkb_icon.ico'),
         webPreferences: {            

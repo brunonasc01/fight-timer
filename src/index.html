@@ -6,16 +6,18 @@
     <title>Countdown Timer</title>
     <style>
         body {
+            padding: 0;
+            margin: 0;
+        }
+        .center {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             font-family: Arial, sans-serif;
+            font-size: 38vw;
             background-color: #FFFFFF;
             overflow: hidden;
-        }
-        #timer {
-            font-size: 40em;
             font-weight: bold;
         }
         .red-flag {
@@ -24,7 +26,7 @@
     </style>
 </head>
 <body>
-    <div id="timer">00:00</div>
+    <div class="center" id="timer">00:00</div>
 
     <script>
         let timerInterval;
