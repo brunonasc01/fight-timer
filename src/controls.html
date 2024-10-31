@@ -3,67 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../assets/css/controls.css" media="screen" />
     <title>Timer Control</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin-top: 20px;
-        }
-        input, button {
-            font-size: 18px;
-            padding: 10px;
-            margin: 5px;
-        }
-        button {
-            width: 100px;
-            border-radius: 2px;
-        }
-        button#startBtn, button#continueBtn {
-            background-color: #76FF76;
-        }
-        button#continueBtn {
-            background-color: #FF7600;
-        }
-        button#resetBtn {
-            background-color: #FF7676;
-        }
-        button#stopBtn {
-            background-color: #FFFF76;
-        }
-        label {
-            font-size: 16px;
-        }
-        #mirrorTimer {
-            font-size: 24px;
-            font-weight: bold;
-            color: #434343;
-            background-color: #FFFFFF;
-            border: 1px solid #767676;
-            padding: 7px;
-            margin: 5px;
-            text-align: center;
-        }
-        table.controls input, table.controls label {
-            display: block;
-        }
-        table.controls label {
-            display: block;
-            margin-left: 5px;
-        }
-        table.controls tr td {
-            padding-right: 10px;
-        }
-        input[type='number']{
-            width: 75px;
-        }
-        .hidden {
-            display: none;
-        }
+
     </style>
 </head>
 <body>
@@ -84,14 +27,16 @@
         </tr>
         <tr>
             <td>
-                <button id="startBtn">Iniciar</button>
+                <button id="startBtn">START</button>
             </td>
             <td>
-                <button id="stopBtn" disabled>Pausar</button>
-                <button class="hidden" id="continueBtn">Continuar</button>
+                <button id="stopBtn" disabled>
+                    <img src="../assets/icons/pause-icon.png" alt="Icon"></button>
+                <button class="hidden" id="continueBtn">
+                    <img src="../assets/icons/play-icon.png" alt="Icon"></button>
             </td>
             <td>
-                <button id="resetBtn">Zerar</button>
+                <button id="resetBtn">RESET</button>
             </td>
         </tr>
     </table>

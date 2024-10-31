@@ -21,6 +21,7 @@ function createMainWindow() {
 function createChildWindow() {
     childWindow = new BrowserWindow({
         autoHideMenuBar: true,
+        resizable: false,
         width: 400,
         height: 250,
         icon: path.join(__dirname, 'assets/icons/wkb_icon.ico'),
