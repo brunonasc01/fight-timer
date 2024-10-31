@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer Controls</title>
+    <title>Timer Control</title>
     <style>
         body {
             display: flex;
@@ -97,6 +97,7 @@
     </table>
 
     <script>
+        const { ipcRenderer } = require('electron');
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
         const continueBtn = document.getElementById('continueBtn');
@@ -108,6 +109,8 @@
         function controlButtons(command) {
             if(command === 'start') {
                 stopBtn.disabled = false;
+                document.getElementById("stopBtn").classList.remove('hidden');
+                document.getElementById("continueBtn").classList.add('hidden');
             }
             else if(command === 'stop') {
                 document.getElementById("stopBtn").classList.add('hidden');
@@ -127,12 +130,8 @@
 
         // Send commands to the parent window (main timer window)
         function sendCommand(command, time = null) {
-            if (window.opener && !window.opener.closed) {
-                window.opener.postMessage({ command, time }, "*");
-                controlButtons(command);
-            } else {
-                alert("The timer window is closed.");
-            }
+            ipcRenderer.send('child-message', { command, time });
+            controlButtons(command);
         }
 
         startBtn.addEventListener('click', () => {
@@ -158,10 +157,8 @@
         resetBtn.addEventListener('click', () => sendCommand('reset'));
 
         // Listen for time updates from the main timer window
-        window.addEventListener("message", (event) => {
-            if (event.data.time) {
-                mirrorTimer.textContent = event.data.time;
-            }
+        ipcRenderer.on('message', (sender, data) => {
+            mirrorTimer.textContent = data.time;
         });
     </script>
 </body>

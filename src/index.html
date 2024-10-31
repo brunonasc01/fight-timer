@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
+    <title>Timer Regressivo</title>
     <style>
         body {
             padding: 0;
@@ -29,10 +29,10 @@
     <div class="center" id="timer">00:00</div>
 
     <script>
+        const { ipcRenderer } = require('electron');
         let timerInterval;
         let remainingTime = 0; // Time in seconds
         let pausedTime = 0; // Holds the time when paused
-        let controlWindow; // Reference to the control window
 
         function toggleRed(append) {
             if(append === true) {
@@ -64,9 +64,7 @@
                     document.getElementById("timer").textContent = formatTime(remainingTime);
 
                     // Send the updated time to the control window
-                    if (controlWindow && !controlWindow.closed) {
-                        controlWindow.postMessage({ time: formatTime(remainingTime) }, "*");
-                    }
+                    ipcRenderer.send('main-message', { time: formatTime(remainingTime) });
 
                     // Stop the timer when it reaches zero
                     if (remainingTime <= 0) {
@@ -80,7 +78,7 @@
         function stopTimer() {
             clearInterval(timerInterval);
             timerInterval = null;
-            pausedTime = remainingTime; // Store the paused time
+            pausedTime = remainingTime;
         }
 
         function resetTimer() {
@@ -97,8 +95,7 @@
         }
 
         // Listen for messages from control window
-        window.addEventListener("message", (event) => {
-            const data = event.data;
+        ipcRenderer.on('message', (sender, data) => {
             if (data.command === "start") {
                 remainingTime = data.time; // Set the countdown starting time
                 document.getElementById("timer").textContent = formatTime(remainingTime);
@@ -111,11 +108,6 @@
                 resetTimer();
             }
         });
-
-        // Open control window when the timer window is loaded
-        window.onload = () => {
-            controlWindow = window.open('controls.html', 'Timer Control', 'width=500,height=250,menubar=no,toolbar=no,location=no,scrollbars=no,status=no');
-        };
     </script>
 </body>
 </html>

@@ -1,8 +1,11 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
+let mainWindow;
+let childWindow;
+
 function createMainWindow() {
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         fullscreen: false,
         autoHideMenuBar: true,
         icon: path.join(__dirname, 'assets/icons/wkb_icon.ico'),
@@ -15,7 +18,45 @@ function createMainWindow() {
     mainWindow.loadFile('src/index.html');
 }
 
-app.whenReady().then(createMainWindow);
+function createChildWindow() {
+    childWindow = new BrowserWindow({
+        autoHideMenuBar: true,
+        width: 400,
+        height: 250,
+        icon: path.join(__dirname, 'assets/icons/wkb_icon.ico'),
+        parent: mainWindow, // Sets mainWindow as the parent
+        modal: false,            
+        show: false, // Start hidden
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+        }
+    });
+
+    childWindow.loadFile('src/controls.html');
+
+    // Show the child window when it’s ready
+    childWindow.once('ready-to-show', () => {
+        childWindow.show();
+    });
+}
+
+app.whenReady().then(() => {
+    createMainWindow();
+    createChildWindow();
+
+    ipcMain.on('main-message', (event, message) => {
+        if (childWindow) {
+            childWindow.webContents.send('message', (event, message));
+        }
+    });
+
+    ipcMain.on('child-message', (event, message) => {
+        if (mainWindow) {
+            mainWindow.webContents.send('message', (event, message));
+        }
+    });
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
