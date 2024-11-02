@@ -19,7 +19,7 @@ function formatTime(seconds) {
     return `${minutes}:${secs}`;
 }
 
-// Start the countdown timer
+// Start the timer
 function startCountdown() {
     (remainingTime <= 10)? toggleRed(true) : toggleRed(false);        
     if (remainingTime > 0 && !timerInterval) {

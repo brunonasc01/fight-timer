@@ -8,7 +8,7 @@ function createMainWindow() {
     mainWindow = new BrowserWindow({
         fullscreen: false,
         autoHideMenuBar: true,
-        icon: path.join(__dirname, 'assets/icons/wkb_icon.ico'),
+        icon: path.join(__dirname, 'assets/icons/timer-icon.png'),
         webPreferences: {            
             nodeIntegration: true,
             contextIsolation: false,
@@ -24,7 +24,7 @@ function createChildWindow() {
         resizable: false,
         width: 400,
         height: 250,
-        icon: path.join(__dirname, 'assets/icons/wkb_icon.ico'),
+        icon: path.join(__dirname, 'assets/icons/timer-icon.png'),
         parent: mainWindow, // Sets mainWindow as the parent
         modal: false,            
         show: false, // Start hidden
