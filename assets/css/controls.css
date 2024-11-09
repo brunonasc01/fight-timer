@@ -1,0 +1,76 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Roboto-Regular", sans-serif;
+    color: #0e2537;
+    background-color: #f0f0f0;
+    margin-top: 20px;
+}
+input, button {
+    font-size: 18px;
+    padding: 10px;
+    margin: 2px 5px 5px;
+}
+button {
+    padding: 10px;
+    margin: 5px;
+    width: 100px;
+    color: #0e2537;
+    border-radius: 8px;
+    border: none;
+}
+button:hover {
+    opacity: 0.85;
+    
+}
+button:active {
+    transform: scale(0.95);
+}
+button img {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+button#startBtn, button#continueBtn {
+    background-color: #76CC76;
+}
+button#continueBtn {
+    background-color: #DD7600;
+}
+button#resetBtn {
+    background-color: #DD7676;
+}
+button#stopBtn {
+    background-color: #DDDD76;
+}
+label {
+    font-size: 16px;
+}
+#mirrorTimer {
+    font-size: 24px;
+    font-weight: bold;
+    color: #434343;
+    background-color: #FFFFFF;
+    border: 1px solid #767676;
+    padding: 7px;
+    margin: 2px 5px 5px;
+    text-align: center;
+}
+table.controls input, table.controls label {
+    display: block;
+}
+table.controls label {
+    display: block;
+    margin-left: 5px;
+}
+table.controls tr td {
+    padding-right: 10px;
+}
+input[type='number']{
+    width: 75px;
+}
+.hidden {
+    display: none;
+}
